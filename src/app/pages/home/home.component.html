@@ -6,7 +6,7 @@
 
     <mat-form-field class="example-full-width" appearance="fill">
         <mat-label>Choose a date</mat-label>
-        <input matInput [matDatepicker]="picker" (dateChange)="getDateFromPicker('change', $event)">
+        <input matInput [matDatepicker]="picker" (dateChange)="getDateFromPicker('change', $event)" [value]="currentDate"> 
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker touchUi #picker></mat-datepicker>
     </mat-form-field>
@@ -14,12 +14,13 @@
     <div class="timeslots">
         <p>Choose an available timeslot below</p>
 
-        <mat-button-toggle-group name="fontStyle" aria-label="Font Style" *ngFor="let slot of timeslots">
-            <mat-button-toggle value="slot.timeslotID">{{slot.timing}}</mat-button-toggle>
+        <mat-button-toggle-group name="fontStyle" #group="matButtonToggleGroup" aria-label="Font Style" (change)="selectTimeslot(group.value)">
+            <mat-button-toggle *ngFor="let slot of timeslots" value="{{slot.timeslotID}}">{{slot.timing}}</mat-button-toggle>
         </mat-button-toggle-group>
+
     </div>
 
-    <button mat-raised-button color="primary">Submit</button>
+    <button mat-raised-button color="primary" (click)="bookAppointment()">Book Appointment</button>
     
 
 </div>

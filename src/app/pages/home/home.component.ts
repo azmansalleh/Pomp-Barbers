@@ -1,12 +1,13 @@
 // Angular imports
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { formatDate } from '@angular/common';
 
 // Services imports
 import { ApiService } from '@services/api.service';
 
 // Constants imports
 import { Constants } from '@configs/constants';
+import { Appointment } from '@models/Appointment';
 import { Timeslot } from '@models/Timeslot';
 import { ParamsObj} from '@models/Http';
 
@@ -16,17 +17,22 @@ import {MatDatepickerInputEvent} from '@angular/material/datepicker';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
 
-  timeslots: Timeslot[];
-  private paramsList: ParamsObj[];
+  timeslots: Timeslot[]
+  paramsList: ParamsObj[]
+  appointment: Appointment
+  currentDate: any
+  userID: number = 1
 
-  constructor(private api: ApiService, private router: Router) { }
+  constructor(private api: ApiService) { }
 
   ngOnInit(): void {
-    
+    this.appointment = new Appointment()
+    this.currentDate = formatDate(new Date(), 'yyyy-MM-dd', 'en')
+    this.getTimeSlots(this.currentDate)    
   }
 
   /**
@@ -34,6 +40,7 @@ export class HomeComponent implements OnInit {
    * @param date 
    */
   getTimeSlots(date: string) {
+    this.appointment.appDate = date
     this.paramsList = [{key: 'appdate', value: date}]
     this.api.get(Constants.TIMESLOTS_ENDPOINT, this.paramsList).subscribe(
       res => {
@@ -45,12 +52,33 @@ export class HomeComponent implements OnInit {
   }
 
   /**
+   * API call to book appointment
+   * @param date 
+   */
+  bookAppointment() {
+    this.api.post(Constants.TIMESLOTS_ENDPOINT, this.appointment).subscribe(
+      res => {
+        console.log(res)
+        this.getTimeSlots(this.currentDate)
+      },
+      err => console.log(err)
+    )
+  }
+
+  selectTimeslot(value:number) {
+    this.appointment.userID = this.userID
+    this.appointment.timeslotID = value
+    console.log(this.appointment)
+  }
+
+  /**
    * Check for input change in datepicker
    * @param type 
    * @param event 
    */
   getDateFromPicker(type: string, event: MatDatepickerInputEvent<Date>) {
-    this.getTimeSlots(this.formatDate(event.value))
+    console.log(event.value)
+    return this.getTimeSlots(this.formatDate(event.value))
   }
 
   /**

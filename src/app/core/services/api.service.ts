@@ -45,7 +45,7 @@ export class ApiService {
       ).pipe(catchError(this.formatErrors));
   }
 
-  post(path: string, paramList?: ParamsObj[], body?: object): Observable<any> {
+  post(path: string, body?: object, paramList?: ParamsObj[],): Observable<any> {
 
     let httpParams = new HttpParams();
     if (paramList) {

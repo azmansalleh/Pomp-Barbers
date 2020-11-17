@@ -1,5 +1,5 @@
 export class Timeslot {
-    timeslotID: string;
+    timeslotID: number;
     timing: string;
 }
  
