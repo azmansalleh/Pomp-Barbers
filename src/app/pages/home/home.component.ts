@@ -3,9 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 // Services imports
+import { ApiService } from '@services/api.service';
 
 // Constants imports
-//import { Constants } from '@configs/constants';
+import { Constants } from '@configs/constants';
 
 @Component({
   selector: 'app-home',
@@ -14,17 +15,13 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private router: Router) { }
-
-  displayedColumns: string[] = ['CaseTitle', 'CaseNumber', 'CustomerName', 'ReceivedOn'];
-  caseListing: any[];
-  isLoading: boolean;
-  emptyData: boolean;
+  constructor(private api: ApiService, private router: Router) { }
 
   ngOnInit(): void {
-    console.log('Test')
+    this.api.get(Constants.TIMESLOTS_ENDPOINT).subscribe(
+      res => console.log(res),
+      err => console.log(err)
+    )
   }
-
-  
 
 }

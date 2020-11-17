@@ -18,8 +18,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 
-
-
 // Module imports
 import { LayoutModule } from '@layout/layout.module';
 import { PagesRoutingModule } from '@pages/pages-routing.module';
