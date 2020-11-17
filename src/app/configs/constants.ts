@@ -22,4 +22,5 @@ export abstract class Constants {
 
     static readonly TIMESLOTS_ENDPOINT = '/timeslots';
 
+
 }

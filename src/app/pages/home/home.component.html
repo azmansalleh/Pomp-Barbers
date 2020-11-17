@@ -6,19 +6,16 @@
 
     <mat-form-field class="example-full-width" appearance="fill">
         <mat-label>Choose a date</mat-label>
-        <input matInput [matDatepicker]="picker">
+        <input matInput [matDatepicker]="picker" (dateChange)="getDateFromPicker('change', $event)">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker touchUi #picker ></mat-datepicker>
+        <mat-datepicker touchUi #picker></mat-datepicker>
     </mat-form-field>
 
     <div class="timeslots">
         <p>Choose an available timeslot below</p>
 
-        <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
-            <mat-button-toggle value="bold">10am - 11am</mat-button-toggle>
-            <mat-button-toggle value="italic">11am - 12pm</mat-button-toggle>
-            <mat-button-toggle value="bold">12pm - 1pm</mat-button-toggle>
-            <mat-button-toggle value="italic">1pm - 2pm</mat-button-toggle>
+        <mat-button-toggle-group name="fontStyle" aria-label="Font Style" *ngFor="let slot of timeslots">
+            <mat-button-toggle value="slot.timeslotID">{{slot.timing}}</mat-button-toggle>
         </mat-button-toggle-group>
     </div>
 
@@ -26,3 +23,4 @@
     
 
 </div>
+
