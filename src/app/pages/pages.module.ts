@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { PortalModule} from '@angular/cdk/portal';
 
 // Component Imports
+import { HomeComponent } from '@pages/home/home.component';
 import { PagesComponent } from '@pages/pages.component';
 
 // Material Imports
@@ -22,6 +23,7 @@ import { PagesRoutingModule } from '@pages/pages-routing.module';
 
 @NgModule({
   declarations: [
+    HomeComponent,
     PagesComponent
   ],
   imports: [
