@@ -7,13 +7,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HeaderComponent } from '@layout/header/header.component';
 
 // Material imports
-import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatInputModule } from '@angular/material/input';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSelectModule } from '@angular/material/select';
-import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 @NgModule({
@@ -23,13 +16,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
   imports: [
     CommonModule,
     FormsModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatInputModule,
-    MatPaginatorModule,
-    MatProgressSpinnerModule,
-    MatSelectModule,
-    MatTableModule,
     MatToolbarModule,
     ReactiveFormsModule
   ],

@@ -11,11 +11,14 @@ import { PagesComponent } from '@pages/pages.component';
 
 // Material Imports
 import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatSortModule } from '@angular/material/sort';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
+
+
 
 // Module imports
 import { LayoutModule } from '@layout/layout.module';
@@ -30,13 +33,14 @@ import { PagesRoutingModule } from '@pages/pages-routing.module';
     CommonModule,
     FormsModule,
     HttpClientModule,
-    LayoutModule,
-    MatButtonModule,
+    MatButtonModule, 
+    MatButtonToggleModule,
     MatCardModule,
-    MatIconModule,
-    MatProgressSpinnerModule,
-    MatSnackBarModule,
-    MatSortModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatNativeDateModule,
+    LayoutModule,
     PagesRoutingModule,
     PortalModule
   ]
