@@ -6,10 +6,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { PortalModule} from '@angular/cdk/portal';
 
 // Component Imports
+import { AdminComponent } from '@pages/admin/admin.component';
 import { HomeComponent } from '@pages/home/home.component';
 import { LoginComponent } from '@pages/login/login.component';
 import { RegisterComponent } from '@pages/register/register.component';
 import { PagesComponent } from '@pages/pages.component';
+
 
 // Material Imports
 import { MatButtonModule } from '@angular/material/button';
@@ -42,6 +44,7 @@ Amplify.configure({
 
 @NgModule({
   declarations: [
+    AdminComponent,
     HomeComponent,
     LoginComponent,
     RegisterComponent,

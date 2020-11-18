@@ -7,6 +7,9 @@ import { Router } from '@angular/router';
 // Services imports
 import { AuthService } from '@services/auth.service'
 
+// Auth imports
+import { JwtHelperService } from "@auth0/angular-jwt";
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -19,12 +22,12 @@ export class LoginComponent implements OnInit {
     password: new FormControl('', [Validators.required, Validators.minLength(8)]),
   });
 
-  constructor(private auth: AuthService, private router: Router) { }
+  constructor(private auth: AuthService, private jwtSvc: JwtHelperService, private router: Router) { }
 
   ngOnInit(): void {
     if (this.auth.getLoginToken()) {
       this.auth.setAuthenticated()
-      this.router.navigateByUrl('/home')
+      this.routeOnRole(this.jwtSvc.decodeToken(this.auth.getLoginToken())['cognito:groups'][0])    
     }
   }
 
@@ -34,13 +37,23 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  routeOnRole(role: string) {
+    if (role == 'Admin') {
+      this.router.navigate(['admin'])
+    }
+    else {
+      this.router.navigate(['home'])
+    }
+  }
+
   async login() {
         try {
           var user = await Auth.signIn(this.form.value.email.toString(), this.form.value.password.toString());
           var tokens = user.signInUserSession;
           if (tokens != null) {
             this.auth.saveLoginToken(tokens)
-            this.router.navigate(['home']);
+            this.auth.setAuthenticated()
+            this.routeOnRole(this.jwtSvc.decodeToken(this.auth.getLoginToken())['cognito:groups'][0])    
             alert('You are logged in successfully !')
           }
         } catch (error) {
