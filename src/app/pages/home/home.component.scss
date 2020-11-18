@@ -24,3 +24,10 @@ p {
 .btn-color {
     background: #a21f30;
 }
+
+::ng-deep .success {
+    background: #1DE9B6;
+}
+::ng-deep .error {
+    background: #cc485a;
+}

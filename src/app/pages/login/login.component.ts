@@ -10,6 +10,9 @@ import { AuthService } from '@services/auth.service'
 // Auth imports
 import { JwtHelperService } from "@auth0/angular-jwt";
 
+// Material imports
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -22,7 +25,10 @@ export class LoginComponent implements OnInit {
     password: new FormControl('', [Validators.required, Validators.minLength(8)]),
   });
 
-  constructor(private auth: AuthService, private jwtSvc: JwtHelperService, private router: Router) { }
+  horizontalPosition: MatSnackBarHorizontalPosition = 'end';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
+
+  constructor(private auth: AuthService, private jwtSvc: JwtHelperService, private router: Router, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     if (this.auth.getLoginToken()) {
@@ -49,6 +55,20 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  /**
+   * Shows toasts
+   * @param msg 
+   * @param type 
+   */
+  openSnackBar(msg: string, type: string) {
+    this.snackBar.open(msg, 'Close', {
+      duration: 2000,
+      panelClass: [type],
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+    });
+  }
+
   async login() {
         try {
           var user = await Auth.signIn(this.form.value.email.toString(), this.form.value.password.toString());
@@ -63,11 +83,11 @@ export class LoginComponent implements OnInit {
               this.router.navigate(['home'])
             }
             
-            alert('You are logged in successfully !')
+            this.openSnackBar('Login successful!', 'success')
           }
         } catch (error) {
           console.log(error);
-          alert('User Authentication failed');
+          this.openSnackBar('Login failed! Please try again', 'error')
         }
       }
   

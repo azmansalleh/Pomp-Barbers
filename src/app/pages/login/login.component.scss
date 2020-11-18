@@ -46,3 +46,10 @@ a {
    /*change color of underline when focused*/
    background-color: #a21f30 !important;;
 }
+
+::ng-deep .success {
+    background: #1DE9B6;
+}
+::ng-deep .error {
+    background: #cc485a;
+}

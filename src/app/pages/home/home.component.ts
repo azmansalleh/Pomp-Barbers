@@ -16,7 +16,8 @@ import { Timeslot } from '@models/Timeslot';
 import { ParamsObj} from '@models/Http';
 
 // Material imports
-import {MatDatepickerInputEvent} from '@angular/material/datepicker';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-home',
@@ -33,7 +34,10 @@ export class HomeComponent implements OnInit {
   userID: string
   name: string
 
-  constructor(private api: ApiService, private auth: AuthService, private jwtSvc: JwtHelperService) { }
+  horizontalPosition: MatSnackBarHorizontalPosition = 'end';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
+
+  constructor(private api: ApiService, private auth: AuthService, private jwtSvc: JwtHelperService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.appointment = new Appointment()
@@ -65,8 +69,13 @@ export class HomeComponent implements OnInit {
   bookAppointment() {
     this.api.post(Constants.APPOINTMENTS_ENDPOINT, this.appointment).subscribe(
       res => {
-        console.log(res)
-        this.getTimeSlots(this.selectedDate)
+        if (res == 1) {
+          this.openSnackBar('Booking appointment successfully made!', 'success')
+          this.getTimeSlots(this.selectedDate)
+        }
+        else {
+          this.openSnackBar('Booking already made on that day!', 'error')
+        }
       },
       err => console.log(err)
     )
@@ -81,6 +90,20 @@ export class HomeComponent implements OnInit {
     this.appointment.userID = this.userID
     this.appointment.timeslotID = value
     console.log(this.appointment)
+  }
+
+  /**
+   * Shows toasts
+   * @param msg 
+   * @param type 
+   */
+  openSnackBar(msg: string, type: string) {
+    this.snackBar.open(msg, 'Close', {
+      duration: 2000,
+      panelClass: [type],
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+    });
   }
 
   /**

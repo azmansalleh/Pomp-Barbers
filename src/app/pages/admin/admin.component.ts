@@ -17,6 +17,7 @@ import { ParamsObj} from '@models/Http';
 
 // Material imports
 import {MatDatepickerInputEvent} from '@angular/material/datepicker';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-admin',
@@ -34,7 +35,10 @@ export class AdminComponent implements OnInit {
   userID: string
   name: string
 
-  constructor(private api: ApiService, private auth: AuthService, private jwtSvc: JwtHelperService) { }
+  horizontalPosition: MatSnackBarHorizontalPosition = 'end';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
+
+  constructor(private api: ApiService, private auth: AuthService, private jwtSvc: JwtHelperService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.appointment = new Appointment()
@@ -84,6 +88,7 @@ export class AdminComponent implements OnInit {
       res => {
         this.getTimeSlots(this.selectedDate)
         this.getUnavailableTimeSlots(this.selectedDate)
+        this.openSnackBar('Timeslot successfully set as unavailable!', 'success')
       },
       err => console.log(err)
     )
@@ -96,8 +101,15 @@ export class AdminComponent implements OnInit {
   freeAppointment() {
     this.api.post(Constants.UNAVAILABLE_TIMESLOTS_ENDPOINT, this.appointment).subscribe(
       res => {
-        this.getTimeSlots(this.selectedDate)
-        this.getUnavailableTimeSlots(this.selectedDate)
+        console.log(res)
+        if (res == 1) {
+          this.openSnackBar('Timeslot successfully set as available!', 'success')
+          this.getTimeSlots(this.selectedDate)
+          this.getUnavailableTimeSlots(this.selectedDate)
+        }
+        else {
+          this.openSnackBar('Timeslot is already booked by a user', 'error')
+        }
       },
       err => console.log(err)
     )
@@ -111,6 +123,20 @@ export class AdminComponent implements OnInit {
   selectTimeslot(value:number) {
     this.appointment.userID = this.userID
     this.appointment.timeslotID = value
+  }
+
+  /**
+   * Shows toasts
+   * @param msg 
+   * @param type 
+   */
+  openSnackBar(msg: string, type: string) {
+    this.snackBar.open(msg, 'Close', {
+      duration: 2000,
+      panelClass: [type],
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+    });
   }
 
   /**
