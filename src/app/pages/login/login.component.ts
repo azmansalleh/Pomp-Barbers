@@ -27,7 +27,13 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     if (this.auth.getLoginToken()) {
       this.auth.setAuthenticated()
-      this.routeOnRole(this.jwtSvc.decodeToken(this.auth.getLoginToken())['cognito:groups'][0])    
+
+      try {
+        this.routeOnRole(this.jwtSvc.decodeToken(this.auth.getLoginToken())['cognito:groups'][0]) 
+      } catch (error) {
+        this.router.navigate(['home'])
+      }
+
     }
   }
 
@@ -41,9 +47,6 @@ export class LoginComponent implements OnInit {
     if (role == 'Admin') {
       this.router.navigate(['admin'])
     }
-    else {
-      this.router.navigate(['home'])
-    }
   }
 
   async login() {
@@ -53,7 +56,13 @@ export class LoginComponent implements OnInit {
           if (tokens != null) {
             this.auth.saveLoginToken(tokens)
             this.auth.setAuthenticated()
-            this.routeOnRole(this.jwtSvc.decodeToken(this.auth.getLoginToken())['cognito:groups'][0])    
+
+            try {
+              this.routeOnRole(this.jwtSvc.decodeToken(this.auth.getLoginToken())['cognito:groups'][0]) 
+            } catch (error) {
+              this.router.navigate(['home'])
+            }
+            
             alert('You are logged in successfully !')
           }
         } catch (error) {
