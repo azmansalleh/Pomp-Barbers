@@ -1,0 +1,33 @@
+.container {
+    width:500px;
+    margin: 100px auto;
+    padding:80px;
+    border-top: 5px solid #a21f30;
+    border-radius: 25px;
+}
+
+.mat-form-field {
+    width: 100%;
+    min-width: 300px;
+}
+
+mat-card-title,
+mat-card-content {
+    display: flex;
+    justify-content: center;
+}
+
+a {
+    color: #e4d720;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.btn-color {
+    background: #a21f30;
+}
+
+.button {
+    display: flex;
+    justify-content: flex-end;
+}

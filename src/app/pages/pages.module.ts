@@ -1,12 +1,14 @@
 // Angular imports
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { PortalModule} from '@angular/cdk/portal';
 
 // Component Imports
 import { HomeComponent } from '@pages/home/home.component';
+import { LoginComponent } from '@pages/login/login.component';
+import { RegisterComponent } from '@pages/register/register.component';
 import { PagesComponent } from '@pages/pages.component';
 
 // Material Imports
@@ -22,9 +24,27 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { LayoutModule } from '@layout/layout.module';
 import { PagesRoutingModule } from '@pages/pages-routing.module';
 
+// Constants imports
+import { Constants } from '@configs/constants';
+
+// AWS
+import Amplify, { Auth } from 'aws-amplify';
+
+Amplify.configure({
+    Auth:{
+      mandatorySignIn:true,
+      region: Constants .REGION,
+      userPoolId: Constants.USER_POOL_ID,
+      userPoolWebClientId: Constants.USER_POOL_WEB_CLIENT_ID,
+      authenticationFlowType: Constants.AUTHENTICATION_FLOW_TYPE
+    }
+});
+
 @NgModule({
   declarations: [
     HomeComponent,
+    LoginComponent,
+    RegisterComponent,
     PagesComponent
   ],
   imports: [
@@ -40,7 +60,8 @@ import { PagesRoutingModule } from '@pages/pages-routing.module';
     MatNativeDateModule,
     LayoutModule,
     PagesRoutingModule,
-    PortalModule
+    PortalModule,
+    ReactiveFormsModule
   ]
 })
 export class PagesModule { }

@@ -2,7 +2,9 @@ import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { PagesComponent } from './pages.component';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from '@pages/home/home.component';
+import { LoginComponent } from '@pages/login/login.component';
+import { RegisterComponent } from '@pages/register/register.component';
 
 
 const routes: Routes = [{
@@ -14,12 +16,20 @@ const routes: Routes = [{
       component: HomeComponent
     },
     {
+      path: 'login',
+      component: LoginComponent
+    },
+    {
+      path: 'register',
+      component: RegisterComponent
+    },
+    {
       path: '',
-      redirectTo: 'home',
+      redirectTo: 'register',
       pathMatch: 'full'
     },
-    { path: '', redirectTo: 'home', pathMatch: 'full'},
-    { path: '**', redirectTo: 'home'}
+    { path: '', redirectTo: 'register', pathMatch: 'full'},
+    { path: '**', redirectTo: 'register'}
   ]
 
 }];
