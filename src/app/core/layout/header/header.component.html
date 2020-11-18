@@ -1,3 +1,4 @@
 <mat-toolbar color="primary">
     <span>Pomp Barbers</span>
+    <button class="btn-color" mat-raised-button color="primary" type="submit" *ngIf="isAuthenticated" (click)="logout()">Logout</button>
 </mat-toolbar>

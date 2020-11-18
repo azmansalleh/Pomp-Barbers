@@ -4,6 +4,9 @@ import { FormGroup, FormControl , Validators} from '@angular/forms';
 import { Auth } from 'aws-amplify';
 import { Router } from '@angular/router';
 
+// Services imports
+import { AuthService } from '@services/auth.service'
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -16,10 +19,13 @@ export class LoginComponent implements OnInit {
     password: new FormControl('', [Validators.required, Validators.minLength(8)]),
   });
 
-  constructor(private router: Router) { }
+  constructor(private auth: AuthService, private router: Router) { }
 
   ngOnInit(): void {
-
+    if (this.auth.getLoginToken()) {
+      this.auth.setAuthenticated()
+      this.router.navigateByUrl('/home')
+    }
   }
 
   submit() {
@@ -31,12 +37,11 @@ export class LoginComponent implements OnInit {
   async login() {
         try {
           var user = await Auth.signIn(this.form.value.email.toString(), this.form.value.password.toString());
-          console.log('Authentication performed for user=' + this.form.value.email + 'password=' + this.form.value.password + ' login result==' + user);
           var tokens = user.signInUserSession;
           if (tokens != null) {
-            console.log('User authenticated');
+            this.auth.saveLoginToken(tokens)
             this.router.navigate(['home']);
-            alert('You are logged in successfully !');
+            alert('You are logged in successfully !')
           }
         } catch (error) {
           console.log(error);

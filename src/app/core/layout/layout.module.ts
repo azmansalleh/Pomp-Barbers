@@ -8,6 +8,7 @@ import { HeaderComponent } from '@layout/header/header.component';
 
 // Material imports
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
   imports: [
     CommonModule,
     FormsModule,
+    MatButtonModule,
     MatToolbarModule,
     ReactiveFormsModule
   ],
