@@ -1,0 +1,27 @@
+<app-header></app-header> 
+
+<div class="container">
+    <h2 class="title-header">Welcome {{name}}! </h2>
+    <p>Book a new appointment with Pomp Barbers. Select a your date to view the timeslots</p>
+
+    <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Choose a date</mat-label>
+        <input matInput [matDatepicker]="picker" (dateChange)="getDateFromPicker('change', $event)" [value]="currentDate"> 
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker touchUi #picker></mat-datepicker>
+    </mat-form-field>
+
+    <div class="timeslots">
+        <p>Choose an available timeslot below</p>
+
+        <mat-button-toggle-group name="fontStyle" #group="matButtonToggleGroup" aria-label="Font Style" (change)="selectTimeslot(group.value)">
+            <mat-button-toggle *ngFor="let slot of timeslots" value="{{slot.timeslotID}}">{{slot.timing}}</mat-button-toggle>
+        </mat-button-toggle-group>
+
+    </div>
+
+    <button class="btn-color" mat-raised-button (click)="bookAppointment()">Book Appointment</button>
+    
+
+</div>
+

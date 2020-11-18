@@ -1,0 +1,26 @@
+.container {
+    width: 100%;
+    max-width: 1280px;
+    min-height: 500px;
+    height: auto;
+    background: #303030;
+    margin: 0 auto;
+    padding: 50px 20px;
+}
+
+.title-header {
+    font-weight: bold;
+    color: #fff;
+}
+
+p {
+    color:hsla(0,0%,100%,.7)
+}
+
+.timeslots {
+    margin: 50px 0px;
+}
+
+.btn-color {
+    background: #a21f30;
+}

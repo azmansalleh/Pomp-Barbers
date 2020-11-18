@@ -1,0 +1,26 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-pompbarbers-dev-05720-authRole",
+      "UnauthRoleArn": "arn:aws:iam::382484240404:role/amplify-pompbarbers-dev-05720-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::382484240404:role/amplify-pompbarbers-dev-05720-authRole",
+      "Region": "ap-southeast-1",
+      "DeploymentBucketName": "amplify-pompbarbers-dev-05720-deployment",
+      "UnauthRoleName": "amplify-pompbarbers-dev-05720-unauthRole",
+      "StackName": "amplify-pompbarbers-dev-05720",
+      "StackId": "arn:aws:cloudformation:ap-southeast-1:382484240404:stack/amplify-pompbarbers-dev-05720/cb807e80-282c-11eb-87fa-0638f3f69c86",
+      "AmplifyAppId": "d3s6yx122338ws"
+    },
+    "categories": {
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d3s6yx122338ws",
+          "type": "manual"
+        }
+      },
+      "auth": {
+        "pompbarbers": {}
+      }
+    }
+  }
+}
