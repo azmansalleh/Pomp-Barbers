@@ -17,7 +17,7 @@ Pomp Barbers is a serverless barber booking system hosted on Amazon Web Services
 
 Pomp Barbers uses a number of AWS services to work:
 
-[picture](images/architecture.png)
+![picture](images/architecture.png)
 
 * [Amazon Amplify](https://aws.amazon.com/amplify/) - Severless hosting for web apps
 * [Amazon API Gateway](https://aws.amazon.com/api-gateway/) - REST API
