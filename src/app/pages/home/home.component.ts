@@ -29,6 +29,7 @@ export class HomeComponent implements OnInit {
   paramsList: ParamsObj[]
   appointment: Appointment
   currentDate: any
+  selectedDate: any
   userID: string
   name: string
 
@@ -64,7 +65,7 @@ export class HomeComponent implements OnInit {
     this.api.post(Constants.TIMESLOTS_ENDPOINT, this.appointment).subscribe(
       res => {
         console.log(res)
-        this.getTimeSlots(this.currentDate)
+        this.getTimeSlots(this.selectedDate)
       },
       err => console.log(err)
     )
@@ -87,7 +88,7 @@ export class HomeComponent implements OnInit {
    * @param event 
    */
   getDateFromPicker(type: string, event: MatDatepickerInputEvent<Date>) {
-    console.log(event.value)
+    this.selectedDate = (this.formatDate(event.value))
     return this.getTimeSlots(this.formatDate(event.value))
   }
 
