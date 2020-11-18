@@ -22,6 +22,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTableModule } from '@angular/material/table';
+
 
 // Module imports
 import { LayoutModule } from '@layout/layout.module';
@@ -63,6 +65,7 @@ Amplify.configure({
     MatInputModule,
     MatNativeDateModule,
     MatSnackBarModule,
+    MatTableModule,
     LayoutModule,
     PagesRoutingModule,
     PortalModule,

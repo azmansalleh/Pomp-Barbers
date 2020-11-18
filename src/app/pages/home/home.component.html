@@ -21,7 +21,29 @@
     </div>
 
     <button class="btn-color" mat-raised-button (click)="bookAppointment()">Book Appointment</button>
-    
+
+    <p style="margin-top: 30px;">Upcoming Timeslots</p>
+    <table mat-table [dataSource]="tableData" class="mat-elevation-z8">
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef> Date </th>
+          <td mat-cell *matCellDef="let element"> {{element.appDate}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="timeslot">
+            <th mat-header-cell *matHeaderCellDef> Time Slot </th>
+            <td mat-cell *matCellDef="let element"> {{element.timing}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="delete">
+            <th mat-header-cell *matHeaderCellDef> Delete Appointment </th>
+            <td mat-cell *matCellDef="let element">
+                <button class="btn-color" mat-raised-button (click)="cancelAppointment(element)">Cancel Appointment</button>
+            </td>
+        </ng-container>
+ 
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
 
 </div>
 

@@ -36,7 +36,7 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  register(){
+  async register(){
     try {
       const user = Auth.signUp({
         username: this.form.value.email,
@@ -46,8 +46,8 @@ export class RegisterComponent implements OnInit {
           given_name: this.form.value.givenName,
           family_name: this.form.value.familyName
         }
+        
       });
-
       this.openSnackBar('User signup completed. Please check your email', 'success')
       this.router.navigate(['login']);
     } catch (error) {

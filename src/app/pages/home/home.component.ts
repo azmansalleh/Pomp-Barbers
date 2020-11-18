@@ -31,11 +31,14 @@ export class HomeComponent implements OnInit {
   appointment: Appointment
   currentDate: any
   selectedDate: any
+  tableData: any
   userID: string
   name: string
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'end';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
+
+  displayedColumns: string[] = ['date', 'timeslot', 'delete'];
 
   constructor(private api: ApiService, private auth: AuthService, private jwtSvc: JwtHelperService, private snackBar: MatSnackBar) { }
 
@@ -45,6 +48,7 @@ export class HomeComponent implements OnInit {
     this.selectedDate = this.currentDate
     this.getTimeSlots(this.currentDate)   
     this.setProfile(this.auth.getLoginToken()) 
+    this.getAppointments()
   }
 
   /**
@@ -63,6 +67,20 @@ export class HomeComponent implements OnInit {
   }
 
   /**
+   * API call to get booked appointments
+   * @param date 
+   */
+  getAppointments() {
+    this.paramsList = [{key: 'userID', value: this.userID}]
+    this.api.get(Constants.APPOINTMENTS_ENDPOINT, this.paramsList).subscribe(
+      res => {
+        this.tableData = res
+      },
+      err => console.log(err)
+    )
+  }
+
+  /**
    * API call to book appointment
    * @param date 
    */
@@ -72,9 +90,30 @@ export class HomeComponent implements OnInit {
         if (res == 1) {
           this.openSnackBar('Booking appointment successfully made!', 'success')
           this.getTimeSlots(this.selectedDate)
+          this.getAppointments()
         }
         else {
           this.openSnackBar('Booking already made on that day!', 'error')
+        }
+      },
+      err => console.log(err)
+    )
+  }
+
+  /**
+   * API call to cancel appointment
+   */
+  cancelAppointment(appointment: any) {
+    this.api.post(Constants.UNAVAILABLE_TIMESLOTS_ENDPOINT, appointment).subscribe(
+      res => {
+        console.log(res)
+        if (res == 1) {
+          this.openSnackBar('Appointment successfully cancelled!', 'success')
+          this.getTimeSlots(this.selectedDate)
+          this.getAppointments()
+        }
+        else {
+          this.openSnackBar('Appointment unable to cancel! Please try again', 'error')
         }
       },
       err => console.log(err)
@@ -89,7 +128,6 @@ export class HomeComponent implements OnInit {
   selectTimeslot(value:number) {
     this.appointment.userID = this.userID
     this.appointment.timeslotID = value
-    console.log(this.appointment)
   }
 
   /**
