@@ -6,10 +6,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { PortalModule} from '@angular/cdk/portal';
 
 // Component Imports
+import { AdminComponent } from '@pages/admin/admin.component';
 import { HomeComponent } from '@pages/home/home.component';
 import { LoginComponent } from '@pages/login/login.component';
 import { RegisterComponent } from '@pages/register/register.component';
 import { PagesComponent } from '@pages/pages.component';
+
 
 // Material Imports
 import { MatButtonModule } from '@angular/material/button';
@@ -19,6 +21,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTableModule } from '@angular/material/table';
+
 
 // Module imports
 import { LayoutModule } from '@layout/layout.module';
@@ -42,6 +47,7 @@ Amplify.configure({
 
 @NgModule({
   declarations: [
+    AdminComponent,
     HomeComponent,
     LoginComponent,
     RegisterComponent,
@@ -58,6 +64,8 @@ Amplify.configure({
     MatFormFieldModule,
     MatInputModule,
     MatNativeDateModule,
+    MatSnackBarModule,
+    MatTableModule,
     LayoutModule,
     PagesRoutingModule,
     PortalModule,

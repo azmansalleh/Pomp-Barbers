@@ -16,29 +16,27 @@ import { Timeslot } from '@models/Timeslot';
 import { ParamsObj} from '@models/Http';
 
 // Material imports
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import {MatDatepickerInputEvent} from '@angular/material/datepicker';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
+  selector: 'app-admin',
+  templateUrl: './admin.component.html',
+  styleUrls: ['./admin.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class AdminComponent implements OnInit {
 
   timeslots: Timeslot[]
+  unavailableTimeslots: Timeslot[]
   paramsList: ParamsObj[]
   appointment: Appointment
   currentDate: any
   selectedDate: any
-  tableData: any
   userID: string
   name: string
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'end';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
-
-  displayedColumns: string[] = ['date', 'timeslot', 'delete'];
 
   constructor(private api: ApiService, private auth: AuthService, private jwtSvc: JwtHelperService, private snackBar: MatSnackBar) { }
 
@@ -47,8 +45,8 @@ export class HomeComponent implements OnInit {
     this.currentDate = formatDate(new Date(), 'yyyy-MM-dd', 'en')
     this.selectedDate = this.currentDate
     this.getTimeSlots(this.currentDate)   
+    this.getUnavailableTimeSlots(this.currentDate)  
     this.setProfile(this.auth.getLoginToken()) 
-    this.getAppointments()
   }
 
   /**
@@ -66,15 +64,16 @@ export class HomeComponent implements OnInit {
     )
   }
 
-  /**
-   * API call to get booked appointments
+    /**
+   * API call to get unavailable timeslots
    * @param date 
    */
-  getAppointments() {
-    this.paramsList = [{key: 'userID', value: this.userID}]
-    this.api.get(Constants.APPOINTMENTS_ENDPOINT, this.paramsList).subscribe(
+  getUnavailableTimeSlots(date: string) {
+    this.appointment.appDate = date
+    this.paramsList = [{key: 'appdate', value: date}]
+    this.api.get(Constants.UNAVAILABLE_TIMESLOTS_ENDPOINT, this.paramsList).subscribe(
       res => {
-        this.tableData = res
+        this.unavailableTimeslots = res
       },
       err => console.log(err)
     )
@@ -85,35 +84,31 @@ export class HomeComponent implements OnInit {
    * @param date 
    */
   bookAppointment() {
-    this.api.post(Constants.APPOINTMENTS_ENDPOINT, this.appointment).subscribe(
+    this.api.post(Constants.TIMESLOTS_ENDPOINT, this.appointment).subscribe(
       res => {
-        if (res == 1) {
-          this.openSnackBar('Booking appointment successfully made!', 'success')
-          this.getTimeSlots(this.selectedDate)
-          this.getAppointments()
-        }
-        else {
-          this.openSnackBar('Booking already made on that day!', 'error')
-        }
+        this.getTimeSlots(this.selectedDate)
+        this.getUnavailableTimeSlots(this.selectedDate)
+        this.openSnackBar('Timeslot successfully set as unavailable!', 'success')
       },
       err => console.log(err)
     )
   }
 
   /**
-   * API call to cancel appointment
+   * API call to book appointment
+   * @param date 
    */
-  cancelAppointment(appointment: any) {
-    this.api.post(Constants.UNAVAILABLE_TIMESLOTS_ENDPOINT, appointment).subscribe(
+  freeAppointment() {
+    this.api.post(Constants.UNAVAILABLE_TIMESLOTS_ENDPOINT, this.appointment).subscribe(
       res => {
         console.log(res)
         if (res == 1) {
-          this.openSnackBar('Appointment successfully cancelled!', 'success')
+          this.openSnackBar('Timeslot successfully set as available!', 'success')
           this.getTimeSlots(this.selectedDate)
-          this.getAppointments()
+          this.getUnavailableTimeSlots(this.selectedDate)
         }
         else {
-          this.openSnackBar('Appointment unable to cancel! Please try again', 'error')
+          this.openSnackBar('Timeslot is already booked by a user', 'error')
         }
       },
       err => console.log(err)
@@ -151,7 +146,8 @@ export class HomeComponent implements OnInit {
    */
   getDateFromPicker(type: string, event: MatDatepickerInputEvent<Date>) {
     this.selectedDate = (this.formatDate(event.value))
-    return this.getTimeSlots(this.formatDate(event.value))
+    this.getTimeSlots(this.formatDate(event.value))
+    this.getUnavailableTimeSlots(this.formatDate(event.value))
   }
 
   /**

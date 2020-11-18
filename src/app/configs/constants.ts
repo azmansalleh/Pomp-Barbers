@@ -3,6 +3,8 @@ export abstract class Constants {
 
     // Enpdoints
     static readonly TIMESLOTS_ENDPOINT = '/timeslots';
+    static readonly UNAVAILABLE_TIMESLOTS_ENDPOINT = '/unavailable-timeslots';
+    static readonly APPOINTMENTS_ENDPOINT = '/appointments';
 
     // AWS
     static readonly REGION = 'ap-southeast-1';

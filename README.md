@@ -2,6 +2,10 @@
 
 Pomp Barbers is a serverless barber booking system hosted on Amazon Web Services.
 
+# Demo
+
+https://dev.d3s6yx122338ws.amplifyapp.com
+
 # Features!
 
   - Register as a new user with email confirmation

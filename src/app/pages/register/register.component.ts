@@ -1,7 +1,11 @@
 // Angular imports
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl , Validators} from '@angular/forms';
+import { Router } from '@angular/router';
 import { Auth } from 'aws-amplify';
+
+// Material imports
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-register',
@@ -17,7 +21,10 @@ export class RegisterComponent implements OnInit {
     familyName: new FormControl('', Validators.required),
   });
 
-  constructor() { }
+  horizontalPosition: MatSnackBarHorizontalPosition = 'end';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
+
+  constructor(private router: Router, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
 
@@ -29,7 +36,7 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  register(){
+  async register(){
     try {
       const user = Auth.signUp({
         username: this.form.value.email,
@@ -39,14 +46,27 @@ export class RegisterComponent implements OnInit {
           given_name: this.form.value.givenName,
           family_name: this.form.value.familyName
         }
+        
       });
-
-      console.log({ user });
-      alert('User signup completed , please check verify your email.')
-      //this.router.navigate(['login']);
+      this.openSnackBar('User signup completed. Please check your email', 'success')
+      this.router.navigate(['login']);
     } catch (error) {
-      console.log('Error signing up:', error)
+      this.openSnackBar('User signup failed! Please try again', 'error')
     }
+  }
+
+  /**
+   * Shows toasts
+   * @param msg 
+   * @param type 
+   */
+  openSnackBar(msg: string, type: string) {
+    this.snackBar.open(msg, 'Close', {
+      duration: 5000,
+      panelClass: [type],
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+    });
   }
   
 }

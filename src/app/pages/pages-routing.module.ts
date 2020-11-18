@@ -5,8 +5,13 @@ import { PagesComponent } from './pages.component';
 import { HomeComponent } from '@pages/home/home.component';
 import { LoginComponent } from '@pages/login/login.component';
 import { RegisterComponent } from '@pages/register/register.component';
+import { AdminComponent } from '@pages/admin/admin.component';
+
 
 import { AuthGuard } from '@guards/auth.guard'
+import { AdminGuard } from '@guards/admin.guard'
+import { UserGuard } from '@guards/user.guard'
+
 
 const routes: Routes = [{
   path: '',
@@ -16,6 +21,11 @@ const routes: Routes = [{
       path: 'home',
       canActivate: [AuthGuard],
       component: HomeComponent
+    },
+    {
+      path: 'admin',
+      canActivate: [AuthGuard, AdminGuard],
+      component: AdminComponent
     },
     {
       path: 'login',

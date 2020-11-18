@@ -31,3 +31,10 @@ a {
     display: flex;
     justify-content: flex-end;
 }
+
+::ng-deep .success {
+    background: #1DE9B6;
+}
+::ng-deep .error {
+    background: #cc485a;
+}
