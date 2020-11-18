@@ -39,6 +39,7 @@ export class AdminComponent implements OnInit {
   ngOnInit(): void {
     this.appointment = new Appointment()
     this.currentDate = formatDate(new Date(), 'yyyy-MM-dd', 'en')
+    this.selectedDate = this.currentDate
     this.getTimeSlots(this.currentDate)   
     this.getUnavailableTimeSlots(this.currentDate)  
     this.setProfile(this.auth.getLoginToken()) 
@@ -81,7 +82,6 @@ export class AdminComponent implements OnInit {
   bookAppointment() {
     this.api.post(Constants.TIMESLOTS_ENDPOINT, this.appointment).subscribe(
       res => {
-        console.log(res)
         this.getTimeSlots(this.selectedDate)
         this.getUnavailableTimeSlots(this.selectedDate)
       },
@@ -96,7 +96,6 @@ export class AdminComponent implements OnInit {
   freeAppointment() {
     this.api.post(Constants.UNAVAILABLE_TIMESLOTS_ENDPOINT, this.appointment).subscribe(
       res => {
-        console.log(res)
         this.getTimeSlots(this.selectedDate)
         this.getUnavailableTimeSlots(this.selectedDate)
       },

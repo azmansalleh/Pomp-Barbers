@@ -38,6 +38,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.appointment = new Appointment()
     this.currentDate = formatDate(new Date(), 'yyyy-MM-dd', 'en')
+    this.selectedDate = this.currentDate
     this.getTimeSlots(this.currentDate)   
     this.setProfile(this.auth.getLoginToken()) 
   }
@@ -62,7 +63,7 @@ export class HomeComponent implements OnInit {
    * @param date 
    */
   bookAppointment() {
-    this.api.post(Constants.TIMESLOTS_ENDPOINT, this.appointment).subscribe(
+    this.api.post(Constants.APPOINTMENTS_ENDPOINT, this.appointment).subscribe(
       res => {
         console.log(res)
         this.getTimeSlots(this.selectedDate)
