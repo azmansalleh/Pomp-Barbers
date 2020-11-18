@@ -1,5 +1,5 @@
 export class Appointment {
-    userID: number;
+    userID: string;
     timeslotID: number;
     appDate: string
 }

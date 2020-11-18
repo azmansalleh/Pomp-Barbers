@@ -4,6 +4,10 @@ import { formatDate } from '@angular/common';
 
 // Services imports
 import { ApiService } from '@services/api.service';
+import { AuthService} from '@services/auth.service';
+
+// Auth imports
+import { JwtHelperService } from "@auth0/angular-jwt";
 
 // Constants imports
 import { Constants } from '@configs/constants';
@@ -25,14 +29,16 @@ export class HomeComponent implements OnInit {
   paramsList: ParamsObj[]
   appointment: Appointment
   currentDate: any
-  userID: number = 1
+  userID: string
+  name: string
 
-  constructor(private api: ApiService) { }
+  constructor(private api: ApiService, private auth: AuthService, private jwtSvc: JwtHelperService) { }
 
   ngOnInit(): void {
     this.appointment = new Appointment()
     this.currentDate = formatDate(new Date(), 'yyyy-MM-dd', 'en')
-    this.getTimeSlots(this.currentDate)    
+    this.getTimeSlots(this.currentDate)   
+    this.setProfile(this.auth.getLoginToken()) 
   }
 
   /**
@@ -63,6 +69,12 @@ export class HomeComponent implements OnInit {
       },
       err => console.log(err)
     )
+  }
+
+  setProfile(token) {
+    console.log(this.jwtSvc.decodeToken(token))
+    this.name = this.jwtSvc.decodeToken(token).given_name + " " + this.jwtSvc.decodeToken(token).family_name
+    this.userID = this.jwtSvc.decodeToken(token).sub
   }
 
   selectTimeslot(value:number) {
